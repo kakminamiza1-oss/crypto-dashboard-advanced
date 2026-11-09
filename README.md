@@ -4,23 +4,21 @@ Static browser dashboard for scanning Binance USDT-M perpetual markets. Uses pub
 
 ## Run locally
 
+Python 3 is required; the dashboard has no third-party package dependencies.
+
 ### Windows
 
-1. Install Python 3 if it is not already installed.
-2. Double-click `run.bat`. It starts a local web server and opens the dashboard at <http://127.0.0.1:8080>.
-3. Keep the server window open while using the dashboard. Close that window to stop it.
-
-Alternatively, from the repository root in PowerShell:
-
-```powershell
-py -m http.server 8080 --bind 127.0.0.1
-```
-
-Then open <http://127.0.0.1:8080>.
+Double-click `run.bat`. It starts the local server, picks an available port from `8080` through `8090`, and opens the dashboard in your default browser. Keep the terminal window open while using the dashboard; press Ctrl+C or close that window to stop the server.
 
 ### macOS / Linux
 
 From the repository root, run:
+
+```sh
+python3 run_local.py
+```
+
+The script opens the dashboard automatically and prints its local URL. If you prefer Python's basic static server, you can also run:
 
 ```sh
 python3 -m http.server 8080 --bind 127.0.0.1
@@ -28,13 +26,13 @@ python3 -m http.server 8080 --bind 127.0.0.1
 
 Then open <http://127.0.0.1:8080>.
 
-Do not open `index.html` directly as a `file://` URL; use the local server. The dashboard needs internet access to reach Binance public market-data endpoints and WebSocket.
+The local server listens only on `127.0.0.1` and serves the dashboard at `/` or `/index.html`; `/health` is available for a basic server check. Do not open `index.html` directly as a `file://` URL. Internet access is still required for Binance market-data REST and WebSocket connections.
 
 ## Troubleshooting
 
-- **Port 8080 is already in use:** stop the other server, or run `py -m http.server 8081 --bind 127.0.0.1` and open <http://127.0.0.1:8081>.
-- **Market data does not load:** check internet access and whether your network or region blocks Binance Futures (`fapi.binance.com` / `fstream.binance.com`). Retry after a short wait if Binance is rate-limiting requests.
-- **Python is not recognized on Windows:** install Python 3 and enable the Python launcher, then run `run.bat` again.
+- **No available port:** the launcher tries ports 8080–8090. Stop another local server in that range and try again.
+- **Page opens but market data does not load:** the local server is working, but the browser still needs internet access to `fapi.binance.com` and `fstream.binance.com`. Check your network/region, browser developer console, and Binance rate-limit responses.
+- **Python is not recognized on Windows:** install Python 3 from <https://www.python.org/downloads/windows/> and enable the Python launcher, then run `run.bat` again.
 
 ## Included
 
