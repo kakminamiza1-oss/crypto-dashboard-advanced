@@ -4,13 +4,37 @@ Static browser dashboard for scanning Binance USDT-M perpetual markets. Uses pub
 
 ## Run locally
 
-From the repository root, serve the static page (recommended instead of opening the file directly):
+### Windows
+
+1. Install Python 3 if it is not already installed.
+2. Double-click `run.bat`. It starts a local web server and opens the dashboard at <http://127.0.0.1:8080>.
+3. Keep the server window open while using the dashboard. Close that window to stop it.
+
+Alternatively, from the repository root in PowerShell:
 
 ```powershell
-py -m http.server 8080
+py -m http.server 8080 --bind 127.0.0.1
 ```
 
-Open <http://127.0.0.1:8080>.
+Then open <http://127.0.0.1:8080>.
+
+### macOS / Linux
+
+From the repository root, run:
+
+```sh
+python3 -m http.server 8080 --bind 127.0.0.1
+```
+
+Then open <http://127.0.0.1:8080>.
+
+Do not open `index.html` directly as a `file://` URL; use the local server. The dashboard needs internet access to reach Binance public market-data endpoints and WebSocket.
+
+## Troubleshooting
+
+- **Port 8080 is already in use:** stop the other server, or run `py -m http.server 8081 --bind 127.0.0.1` and open <http://127.0.0.1:8081>.
+- **Market data does not load:** check internet access and whether your network or region blocks Binance Futures (`fapi.binance.com` / `fstream.binance.com`). Retry after a short wait if Binance is rate-limiting requests.
+- **Python is not recognized on Windows:** install Python 3 and enable the Python launcher, then run `run.bat` again.
 
 ## Included
 
