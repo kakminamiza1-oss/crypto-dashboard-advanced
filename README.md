@@ -1,10 +1,10 @@
 # Momentum Desk — Binance Futures Scanner
 
-Static, browser-based scanner for Binance USDT-M perpetual markets. Uses Binance public REST data; no API key or order execution is involved.
+Static browser dashboard for scanning Binance USDT-M perpetual markets. Uses public market-data REST endpoints and market ticker WebSocket only; no API key and no order execution.
 
 ## Run locally
 
-From the repository root, start a static web server (opening `index.html` directly may be blocked by browser network/CORS policy):
+From the repository root, serve the static page (recommended instead of opening the file directly):
 
 ```powershell
 py -m http.server 8080
@@ -12,14 +12,15 @@ py -m http.server 8080
 
 Open <http://127.0.0.1:8080>.
 
-## Features
+## Included
 
-- Selects the top 10/20/30 USDT perpetual pairs by 24-hour quote volume.
-- Fetches closed 5m, 15m and 1h candles and calculates EMA alignment, RSI, MACD histogram, ATR, relative volume and a simple breakout/candle-quality check.
-- Ranks candidates with a transparent heuristic score and displays price, 24h volume/change, spread and an ATR-based reference plan.
-- Filters by direction, score and volume surge; exports the scan as CSV.
-- Browser-only frontend. Binance public endpoints are used directly; network access, Binance availability, API limits and browser connectivity can affect results.
+- Top 10/20/30 USDT perpetual pairs ranked by 24-hour quote volume.
+- Closed-candle 5m/15m/1h EMA20/EMA50 trend alignment, RSI, MACD histogram, ATR, relative volume, breakout and candle-close quality checks.
+- Liquidity screen using top-of-book spread; candidates are withheld unless timeframe trend, momentum, relative volume, candle quality and spread gates align.
+- Score-ranked LONG / SHORT / WAIT scan, filters, CSV export and ATR-based reference levels.
+- Live ticker updates over Binance Futures WebSocket and optional 60-second full scan refresh.
+- Responsive dark dashboard and market breadth summary.
 
-## Scoring and safety notes
+## Notes
 
-The score is an unvalidated research heuristic, not a probability of success. LONG/SHORT is shown only when all three timeframe trends align and momentum, volume and candle checks pass; otherwise the row is marked “รอยืนยัน”. The displayed Entry/SL/TP is an illustrative ATR-based reference, not an order instruction. This project does not place trades and must not be treated as financial advice. Backtest and paper-trade before relying on any screening rule.
+The score is an unvalidated heuristic, not a probability of success. All signal-like labels are for research and screening only. Entry/SL/TP are illustrative ATR-based reference levels, not order instructions or investment advice. The page depends on internet access, Binance public endpoint availability, browser connectivity and exchange rate limits. Backtest and paper-trade rules before relying on them. Never add exchange trading credentials to this static dashboard.
